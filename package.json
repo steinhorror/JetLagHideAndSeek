@@ -74,7 +74,7 @@
         "@types/react-dom": "19.0.3",
         "@types/terraformer__arcgis": "^2.0.5",
         "eslint": "^9.19.0",
-        "eslint-config-prettier": "^10.0.1",
+        "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-import-alias": "^1.2.0",
         "eslint-plugin-react": "^7.37.4",
         "eslint-plugin-simple-import-sort": "^12.1.1",
