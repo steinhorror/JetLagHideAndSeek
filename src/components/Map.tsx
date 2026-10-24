@@ -1,6 +1,8 @@
-import "leaflet/dist/leaflet.css";
-import "leaflet-contextmenu/dist/leaflet.contextmenu.css";
+export const prerender = false;
+
 import "leaflet-contextmenu";
+import "leaflet-contextmenu/dist/leaflet.contextmenu.css";
+import "leaflet/dist/leaflet.css";
 
 import { useStore } from "@nanostores/react";
 import * as turf from "@turf/turf";
@@ -30,8 +32,11 @@ import {
     triggerLocalRefresh,
 } from "@/lib/context";
 import { cn } from "@/lib/utils";
-import { applyQuestionsToMapGeoData, holedMask } from "@/maps";
-import { hiderifyQuestion } from "@/maps";
+import {
+    applyQuestionsToMapGeoData,
+    hiderifyQuestion,
+    holedMask,
+} from "@/maps";
 import { clearCache, determineMapBoundaries } from "@/maps/api";
 
 import { DraggableMarkers } from "./DraggableMarkers";
@@ -100,6 +105,37 @@ const getTileLayer = (tileLayer: string, thunderforestApiKey: string) => {
                     minZoom={2}
                     noWrap
                 />
+            );
+
+        case "osmrailway":
+            return (
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors; Powered by Esri and Turf.js'
+                    url="https://tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png"
+                    maxZoom={19}
+                    minZoom={2}
+                    noWrap
+                />
+            );
+
+        case "osmrailwaycarto":
+            return (
+                <>
+                    <TileLayer
+                        attribution="&copy; ORM"
+                        url="https://tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png"
+                        maxZoom={19}
+                        minZoom={2}
+                        noWrap
+                    />
+                    <TileLayer
+                        attribution="&copy; OSM"
+                        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        maxZoom={19}
+                        minZoom={2}
+                        noWrap
+                    />
+                </>
             );
     }
 

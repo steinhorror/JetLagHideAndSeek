@@ -549,6 +549,9 @@ export const OptionDrawers = ({ className }: { className?: string }) => {
                                     neighbourhood:
                                         "Thunderforest Neighbourhood",
                                     osmcarto: "OpenStreetMap Carto",
+                                    osmrailway: "OpenStreetMap Railway",
+                                    osmrailwaycarto:
+                                        "OpenStreetMap Railway Carto",
                                 }}
                                 value={$baseTileLayer}
                                 onValueChange={(v) =>

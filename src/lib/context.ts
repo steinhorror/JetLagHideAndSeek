@@ -75,6 +75,29 @@ export const questions = persistentAtom<Questions>("questions", [], {
     encode: JSON.stringify,
     decode: (x) => questionsSchema.parse(JSON.parse(x)),
 });
+questions.subscribe((value) => {
+    console.log("questions updated:", value);
+});
+
+let selected: "A" | "B" = "A";
+console.log(globalThis);
+if (globalThis.window) {
+    window.onkeydown = (e) => {
+        console.log("Key pressed:", e.key);
+        if (!["a", "b", "d", "s", "w"].includes(e.key.toLowerCase())) return;
+        if (e.key === "b") selected = selected === "A" ? "B" : "A";
+        let question = questions.get()[0];
+        if (question.id !== "thermometer") return;
+        const amt = e.shiftKey ? 0.0001 : 0.000001;
+        if (e.key.toLowerCase() === "a") question.data["lat" + selected] -= amt;
+        if (e.key.toLowerCase() === "d") question.data["lat" + selected] += amt;
+        if (e.key.toLowerCase() === "w") question.data["lng" + selected] += amt;
+        if (e.key.toLowerCase() === "s") question.data["lng" + selected] -= amt;
+        // Update
+        questions.set([question]);
+    };
+}
+
 export const addQuestion = (question: DeepPartial<Question>) =>
     questionModified(questions.get().push(questionSchema.parse(question)));
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -339,7 +362,14 @@ export const autoZoom = persistentAtom<boolean>("autoZoom", true, {
 export const isLoading = atom<boolean>(false);
 
 export const baseTileLayer = persistentAtom<
-    "voyager" | "light" | "dark" | "transport" | "neighbourhood" | "osmcarto"
+    | "voyager"
+    | "light"
+    | "dark"
+    | "transport"
+    | "neighbourhood"
+    | "osmcarto"
+    | "osmrailway"
+    | "osmrailwaycarto"
 >("baseTileLayer", "voyager");
 export const thunderforestApiKey = persistentAtom<string>(
     "thunderforestApiKey",
